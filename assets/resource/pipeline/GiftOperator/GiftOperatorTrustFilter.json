@@ -1,0 +1,865 @@
+{
+    "GiftOperatorTrustFilterHeader": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    400,
+                    100,
+                    350,
+                    140
+                ],
+                "expected": [
+                    "筛选"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GiftOperatorTrustFilterButton": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    480,
+                    420,
+                    800,
+                    240
+                ],
+                "template": [
+                    "GiftOperator/ContactFilter.png",
+                    "GiftOperator/ContactFilterActive.png"
+                ],
+                "threshold": 0.8
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GiftOperatorTrustFilterActive": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    480,
+                    420,
+                    800,
+                    240
+                ],
+                "template": "GiftOperator/ContactFilterActive.png",
+                "threshold": 0.8
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GiftOperatorTrustFilterResetButton": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [
+                    500,
+                    450,
+                    600,
+                    200
+                ],
+                "template": "GiftOperator/ContactFilterReset.png",
+                "threshold": 0.8
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GiftOperatorTrustFilterSaveText": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    700,
+                    450,
+                    480,
+                    200
+                ],
+                "expected": [
+                    "保存"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GiftOperatorTrustFilterFriendlyText": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    140,
+                    140,
+                    880,
+                    420
+                ],
+                "expected": [
+                    "友好"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GiftOperatorTrustFilterCloseText": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    140,
+                    140,
+                    880,
+                    420
+                ],
+                "expected": [
+                    "亲近"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    // 绿色遮罩仅保留品质、信赖度和收礼条件的七个勾选框，避免 OCR 文案影响状态校验。
+    "GiftOperatorTrustFilterCleared": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterHeader",
+                    {
+                        "recognition": {
+                            "type": "TemplateMatch",
+                            "param": {
+                                "roi": [
+                                    140,
+                                    240,
+                                    880,
+                                    250
+                                ],
+                                "template": "GiftOperator/ContactFilterCleared.png",
+                                "green_mask": true,
+                                "threshold": 0.95
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GiftOperatorTrustFilterReady": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterHeader",
+                    {
+                        "recognition": {
+                            "type": "TemplateMatch",
+                            "param": {
+                                "roi": [
+                                    140,
+                                    240,
+                                    880,
+                                    250
+                                ],
+                                "template": "GiftOperator/ContactFilterReady.png",
+                                "green_mask": true,
+                                "threshold": 0.95
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    "GiftOperatorTrustFilterOpen": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorCheckContact",
+                    "GiftOperatorTrustFilterButton"
+                ],
+                "box_index": 1
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                180,
+                200,
+                810,
+                350
+            ]
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterReset"
+        ]
+    },
+    "GiftOperatorTrustFilterReset": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterHeader",
+                    "GiftOperatorTrustFilterResetButton"
+                ],
+                "box_index": 1
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                180,
+                200,
+                810,
+                350
+            ]
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterResetDone"
+        ]
+    },
+    "GiftOperatorTrustFilterResetDone": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterCleared"
+                ],
+                "box_index": 0
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterFriendlyOff"
+        ]
+    },
+    "GiftOperatorTrustFilterFriendlyOff": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterHeader",
+                    "GiftOperatorTrustFilterFriendlyText",
+                    {
+                        "recognition": {
+                            "type": "ColorMatch",
+                            "param": {
+                                "roi": "GiftOperatorTrustFilterFriendlyText",
+                                "roi_offset": [
+                                    50,
+                                    2,
+                                    0,
+                                    -4
+                                ],
+                                "method": 40,
+                                "lower": [
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "upper": [
+                                    179,
+                                    60,
+                                    85
+                                ],
+                                "count": 100
+                            }
+                        }
+                    }
+                ],
+                "box_index": 0
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": "GiftOperatorTrustFilterFriendlyText"
+            }
+        },
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                180,
+                200,
+                810,
+                350
+            ]
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterFriendlyOn"
+        ]
+    },
+    "GiftOperatorTrustFilterFriendlyOn": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterHeader",
+                    "GiftOperatorTrustFilterFriendlyText",
+                    {
+                        "recognition": {
+                            "type": "ColorMatch",
+                            "param": {
+                                "roi": "GiftOperatorTrustFilterFriendlyText",
+                                "roi_offset": [
+                                    50,
+                                    2,
+                                    0,
+                                    -4
+                                ],
+                                "method": 40,
+                                "lower": [
+                                    0,
+                                    0,
+                                    150
+                                ],
+                                "upper": [
+                                    179,
+                                    45,
+                                    240
+                                ],
+                                "count": 100
+                            }
+                        }
+                    }
+                ],
+                "box_index": 0
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterCloseOff",
+            "GiftOperatorTrustFilterCloseOn"
+        ]
+    },
+    "GiftOperatorTrustFilterCloseOff": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterHeader",
+                    "GiftOperatorTrustFilterCloseText",
+                    {
+                        "recognition": {
+                            "type": "ColorMatch",
+                            "param": {
+                                "roi": "GiftOperatorTrustFilterCloseText",
+                                "roi_offset": [
+                                    50,
+                                    2,
+                                    0,
+                                    -4
+                                ],
+                                "method": 40,
+                                "lower": [
+                                    0,
+                                    0,
+                                    0
+                                ],
+                                "upper": [
+                                    179,
+                                    60,
+                                    85
+                                ],
+                                "count": 100
+                            }
+                        }
+                    }
+                ],
+                "box_index": 0
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Click",
+            "param": {
+                "target": "GiftOperatorTrustFilterCloseText"
+            }
+        },
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                180,
+                200,
+                810,
+                350
+            ]
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterCloseOn"
+        ]
+    },
+    "GiftOperatorTrustFilterCloseOn": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterHeader",
+                    "GiftOperatorTrustFilterCloseText",
+                    {
+                        "recognition": {
+                            "type": "ColorMatch",
+                            "param": {
+                                "roi": "GiftOperatorTrustFilterCloseText",
+                                "roi_offset": [
+                                    50,
+                                    2,
+                                    0,
+                                    -4
+                                ],
+                                "method": 40,
+                                "lower": [
+                                    0,
+                                    0,
+                                    150
+                                ],
+                                "upper": [
+                                    179,
+                                    45,
+                                    240
+                                ],
+                                "count": 100
+                            }
+                        }
+                    }
+                ],
+                "box_index": 0
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterCountZero",
+            "GiftOperatorTrustFilterCountOne",
+            "GiftOperatorTrustFilterCountTwo",
+            "GiftOperatorTrustFilterCountThree"
+        ]
+    },
+    "GiftOperatorTrustFilterResultText": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    140,
+                    450,
+                    380,
+                    180
+                ],
+                "expected": [
+                    "筛选结果"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0
+    },
+    // 读取筛选面板的总人数后设置本次选人路径，不用识别失败推断人数不足。
+    "GiftOperatorTrustFilterCountZero": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterReady",
+                    "GiftOperatorTrustFilterResultText",
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": "GiftOperatorTrustFilterResultText",
+                                "roi_offset": [
+                                    74,
+                                    -4,
+                                    -46,
+                                    12
+                                ],
+                                "expected": [
+                                    // 完整筛选结果人数，0 / 1 / 2 / 3 及以上
+                                    // @i18n-skip
+                                    "^0$"
+                                ],
+                                "only_rec": true
+                            }
+                        }
+                    }
+                ],
+                "box_index": 2
+            }
+        },
+        "pre_delay": 0,
+        "anchor": {
+            "GiftOperatorTrustAfterFilter": "GiftOperatorTrustCloseContact",
+            "GiftOperatorTrustAfterFirst": "GiftOperatorSelectOp2",
+            "GiftOperatorTrustAfterSecond": "GiftOperatorSelectOp3"
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterSave"
+        ]
+    },
+    "GiftOperatorTrustFilterCountOne": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterReady",
+                    "GiftOperatorTrustFilterResultText",
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": "GiftOperatorTrustFilterResultText",
+                                "roi_offset": [
+                                    74,
+                                    -4,
+                                    -46,
+                                    12
+                                ],
+                                "expected": [
+                                    // 完整筛选结果人数，0 / 1 / 2 / 3 及以上
+                                    // @i18n-skip
+                                    "^1$"
+                                ],
+                                "only_rec": true
+                            }
+                        }
+                    }
+                ],
+                "box_index": 2
+            }
+        },
+        "pre_delay": 0,
+        "anchor": {
+            "GiftOperatorTrustAfterFilter": "GiftOperatorSelectOp1",
+            "GiftOperatorTrustAfterFirst": "GiftOperatorConfirmSelect",
+            "GiftOperatorTrustAfterSecond": "GiftOperatorSelectOp3"
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterSave"
+        ]
+    },
+    "GiftOperatorTrustFilterCountTwo": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterReady",
+                    "GiftOperatorTrustFilterResultText",
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": "GiftOperatorTrustFilterResultText",
+                                "roi_offset": [
+                                    74,
+                                    -4,
+                                    -46,
+                                    12
+                                ],
+                                "expected": [
+                                    // 完整筛选结果人数，0 / 1 / 2 / 3 及以上
+                                    // @i18n-skip
+                                    "^2$"
+                                ],
+                                "only_rec": true
+                            }
+                        }
+                    }
+                ],
+                "box_index": 2
+            }
+        },
+        "pre_delay": 0,
+        "anchor": {
+            "GiftOperatorTrustAfterFilter": "GiftOperatorSelectOp1",
+            "GiftOperatorTrustAfterFirst": "GiftOperatorSelectOp2",
+            "GiftOperatorTrustAfterSecond": "GiftOperatorConfirmSelect"
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterSave"
+        ]
+    },
+    "GiftOperatorTrustFilterCountThree": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterReady",
+                    "GiftOperatorTrustFilterResultText",
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": "GiftOperatorTrustFilterResultText",
+                                "roi_offset": [
+                                    74,
+                                    -4,
+                                    -46,
+                                    12
+                                ],
+                                "expected": [
+                                    // 完整筛选结果人数，0 / 1 / 2 / 3 及以上
+                                    // @i18n-skip
+                                    "^(?:[3-9]|[1-9]\\d+)$"
+                                ],
+                                "only_rec": true
+                            }
+                        }
+                    }
+                ],
+                "box_index": 2
+            }
+        },
+        "pre_delay": 0,
+        "anchor": {
+            "GiftOperatorTrustAfterFilter": "GiftOperatorSelectOp1",
+            "GiftOperatorTrustAfterFirst": "GiftOperatorSelectOp2",
+            "GiftOperatorTrustAfterSecond": "GiftOperatorSelectOp3"
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterSave"
+        ]
+    },
+    "GiftOperatorTrustFilterSave": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterReady",
+                    "GiftOperatorTrustFilterSaveText"
+                ],
+                "box_index": 1
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                480,
+                180,
+                530,
+                300
+            ]
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustFilterApplied"
+        ]
+    },
+    "GiftOperatorTrustFilterApplied": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorCheckContact",
+                    "GiftOperatorTrustFilterActive"
+                ],
+                "box_index": 0
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "[Anchor]GiftOperatorTrustAfterFilter"
+        ]
+    },
+    // 游戏会保留筛选条件；旧选人路线先清空，避免下一次任务被本模式的筛选限制。
+    "GiftOperatorTrustClearFilter": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorCheckContact",
+                    "GiftOperatorTrustFilterActive"
+                ],
+                "box_index": 1
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                180,
+                200,
+                810,
+                350
+            ]
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustClearFilterReset"
+        ]
+    },
+    "GiftOperatorTrustClearFilterReset": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterHeader",
+                    "GiftOperatorTrustFilterResetButton"
+                ],
+                "box_index": 1
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                180,
+                200,
+                810,
+                350
+            ]
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustClearFilterSave"
+        ]
+    },
+    "GiftOperatorTrustClearFilterSave": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorTrustFilterCleared",
+                    "GiftOperatorTrustFilterSaveText"
+                ],
+                "box_index": 1
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Click"
+        },
+        "post_wait_freezes": {
+            "time": 200,
+            "target": [
+                480,
+                180,
+                530,
+                300
+            ]
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorCheckContact"
+        ]
+    },
+    "GiftOperatorTrustCloseContact": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorCheckContact",
+                    {
+                        "recognition": {
+                            "type": "OCR",
+                            "param": {
+                                "roi": [
+                                    700,
+                                    0,
+                                    580,
+                                    360
+                                ],
+                                "expected": [
+                                    "×"
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "box_index": 1
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "Click"
+        },
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorTrustSkipped"
+        ]
+    },
+    "GiftOperatorTrustSkipped": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "InDijiangWorld"
+                ],
+                "box_index": 0
+            }
+        },
+        "pre_delay": 0,
+        "action": {
+            "type": "StopTask"
+        },
+        "post_delay": 0,
+        "rate_limit": 0
+    }
+}

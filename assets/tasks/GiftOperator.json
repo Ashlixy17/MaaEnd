@@ -53,6 +53,70 @@
                     }
                 },
                 {
+                    "name": "TrustNotFull",
+                    "label": "$task.GiftOperator.select.trust_not_full",
+                    "pipeline_override": {
+                        "GiftOperatorCheckContact": {
+                            "next": [
+                                "GiftOperatorTrustFilterOpen"
+                            ]
+                        },
+                        "GiftOperatorContacSortOrder": {
+                            "enabled": false
+                        },
+                        "GiftOperatorContacSortBy": {
+                            "enabled": false
+                        },
+                        "GiftOperatorSelectSpecifiedOp": {
+                            "enabled": false
+                        },
+                        "GiftOperatorSelectGiftOp": {
+                            "enabled": false
+                        },
+                        "GiftOperatorSelectOp1": {
+                            "enabled": true
+                        },
+                        "GiftOperatorCheckSelected1": {
+                            "next": [
+                                "[Anchor]GiftOperatorTrustAfterFirst"
+                            ]
+                        },
+                        "GiftOperatorCheckSelected2": {
+                            "next": [
+                                "[Anchor]GiftOperatorTrustAfterSecond"
+                            ]
+                        },
+                        "GiftOperatorTrustIcon": {
+                            "recognition": {
+                                "param": {
+                                    "roi": [
+                                        480,
+                                        160,
+                                        800,
+                                        360
+                                    ]
+                                }
+                            }
+                        },
+                        "GiftOperatorTrustValue": {
+                            "recognition": {
+                                "param": {
+                                    "expected": [
+                                        // 完整信赖度数值为 0%～199%，兼容仅识别出数字的结果
+                                        // @i18n-skip
+                                        "^(?:1\\d{2}|\\d{1,2})\\s*[%％]?$"
+                                    ]
+                                }
+                            }
+                        },
+                        "GiftOperatorName": {
+                            "expected": [
+                                ".*"
+                            ]
+                        }
+                    }
+                },
+                {
                     "name": "Perlica",
                     "label": "$operator.Perlica",
                     "pipeline_override": {
