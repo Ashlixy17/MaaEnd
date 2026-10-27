@@ -113,6 +113,11 @@
                             "expected": [
                                 ".*"
                             ]
+                        },
+                        "GiftOperatorCheckSelected3": {
+                            "next": [
+                                "[Anchor]GiftOperatorTrustAfterThird"
+                            ]
                         }
                     }
                 },

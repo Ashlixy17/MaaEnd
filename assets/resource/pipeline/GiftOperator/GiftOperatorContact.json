@@ -28,7 +28,6 @@
             ]
         },
         "next": [
-            "GiftOperatorTrustClearFilter",
             "[JumpBack]GiftOperatorContacSortOrder",
             "[JumpBack]GiftOperatorContacSortBy",
             "GiftOperatorSelectOp1",

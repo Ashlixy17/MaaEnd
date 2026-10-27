@@ -78,7 +78,7 @@ for (const [
     // 通过现有名称找到基线，不维护另一份干员 ID 绑定表。
     const matches = task.value.option.SelectOperator.cases.filter(
         (item) =>
-            item.pipeline_override.GiftOperatorSelectSpecifiedOp?.enabled === true &&
+            item.name !== "Any" &&
             item.pipeline_override.GiftOperatorName.expected.some((name) => knownNames.has(name)),
     );
     if (matches.length > 1) throw new Error(`[GiftOperator] ${id} 对应多个现有选项`);
