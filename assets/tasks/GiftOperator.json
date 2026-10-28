@@ -74,17 +74,26 @@
                             "enabled": false
                         },
                         "GiftOperatorSelectOp1": {
-                            "enabled": true
+                            "enabled": true,
+                            "max_hit": 1
+                        },
+                        "GiftOperatorSelectOp2": {
+                            "max_hit": 1
+                        },
+                        "GiftOperatorSelectOp3": {
+                            "max_hit": 1
                         },
                         "GiftOperatorCheckSelected1": {
-                            "next": [
-                                "[Anchor]GiftOperatorTrustAfterFirst"
-                            ]
+                            "anchor": {
+                                "GiftOperatorTrustAfterRestore": "GiftOperatorTrustVerifySelected1"
+                            },
+                            "next": []
                         },
                         "GiftOperatorCheckSelected2": {
-                            "next": [
-                                "[Anchor]GiftOperatorTrustAfterSecond"
-                            ]
+                            "anchor": {
+                                "GiftOperatorTrustAfterRestore": "GiftOperatorTrustVerifySelected2"
+                            },
+                            "next": []
                         },
                         "GiftOperatorTrustIcon": {
                             "recognition": {
@@ -98,26 +107,16 @@
                                 }
                             }
                         },
-                        "GiftOperatorTrustValue": {
-                            "recognition": {
-                                "param": {
-                                    "expected": [
-                                        // 完整信赖度数值为 0%～199%，兼容仅识别出数字的结果
-                                        // @i18n-skip
-                                        "^(?:1\\d{2}|\\d{1,2})\\s*[%％]?$"
-                                    ]
-                                }
-                            }
-                        },
                         "GiftOperatorName": {
                             "expected": [
                                 ".*"
                             ]
                         },
                         "GiftOperatorCheckSelected3": {
-                            "next": [
-                                "[Anchor]GiftOperatorTrustAfterThird"
-                            ]
+                            "anchor": {
+                                "GiftOperatorTrustAfterRestore": "GiftOperatorTrustVerifySelected3"
+                            },
+                            "next": []
                         }
                     }
                 },

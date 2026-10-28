@@ -341,9 +341,7 @@
         "rate_limit": 0,
         "next": [
             "GiftOperatorTrustFilterCountZero",
-            "GiftOperatorTrustFilterCountOne",
-            "GiftOperatorTrustFilterCountTwo",
-            "GiftOperatorTrustFilterCountThree"
+            "GiftOperatorTrustFilterCountPositive"
         ]
     },
     "GiftOperatorTrustFilterResultText": {
@@ -398,16 +396,17 @@
         },
         "pre_delay": 0,
         "anchor": {
-            "GiftOperatorTrustAfterFilter": "GiftOperatorTrustRestoreOpen",
             "GiftOperatorTrustAfterRestore": "GiftOperatorTrustCloseContact"
         },
         "post_delay": 0,
         "rate_limit": 0,
         "next": [
-            "GiftOperatorTrustFilterSave"
+            "[JumpBack]GiftOperatorTrustRestoreFriendlyOn",
+            "[JumpBack]GiftOperatorTrustRestoreCloseOn",
+            "GiftOperatorTrustRestoreSave"
         ]
     },
-    "GiftOperatorTrustFilterCountOne": {
+    "GiftOperatorTrustFilterCountPositive": {
         "recognition": {
             "type": "OCR",
             "param": {
@@ -415,70 +414,12 @@
                 "expected": [
                     // 完整筛选结果人数
                     // @i18n-skip
-                    "^1$"
+                    "^[1-9]\\d*$"
                 ],
                 "only_rec": true
             }
         },
         "pre_delay": 0,
-        "anchor": {
-            "GiftOperatorTrustAfterFilter": "GiftOperatorSelectOp1",
-            "GiftOperatorTrustAfterRestore": "GiftOperatorCheckSelected1",
-            "GiftOperatorTrustAfterFirst": "GiftOperatorTrustRestoreOpen"
-        },
-        "post_delay": 0,
-        "rate_limit": 0,
-        "next": [
-            "GiftOperatorTrustFilterSave"
-        ]
-    },
-    "GiftOperatorTrustFilterCountTwo": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": "GiftOperatorTrustFilterCountValue",
-                "expected": [
-                    // 完整筛选结果人数
-                    // @i18n-skip
-                    "^2$"
-                ],
-                "only_rec": true
-            }
-        },
-        "pre_delay": 0,
-        "anchor": {
-            "GiftOperatorTrustAfterFilter": "GiftOperatorSelectOp1",
-            "GiftOperatorTrustAfterRestore": "GiftOperatorCheckSelected2",
-            "GiftOperatorTrustAfterFirst": "GiftOperatorSelectOp2",
-            "GiftOperatorTrustAfterSecond": "GiftOperatorTrustRestoreOpen"
-        },
-        "post_delay": 0,
-        "rate_limit": 0,
-        "next": [
-            "GiftOperatorTrustFilterSave"
-        ]
-    },
-    "GiftOperatorTrustFilterCountThree": {
-        "recognition": {
-            "type": "OCR",
-            "param": {
-                "roi": "GiftOperatorTrustFilterCountValue",
-                "expected": [
-                    // 完整筛选结果人数
-                    // @i18n-skip
-                    "^(?:[3-9]|[1-9]\\d+)$"
-                ],
-                "only_rec": true
-            }
-        },
-        "pre_delay": 0,
-        "anchor": {
-            "GiftOperatorTrustAfterFilter": "GiftOperatorSelectOp1",
-            "GiftOperatorTrustAfterRestore": "GiftOperatorCheckSelected3",
-            "GiftOperatorTrustAfterFirst": "GiftOperatorSelectOp2",
-            "GiftOperatorTrustAfterSecond": "GiftOperatorSelectOp3",
-            "GiftOperatorTrustAfterThird": "GiftOperatorTrustRestoreOpen"
-        },
         "post_delay": 0,
         "rate_limit": 0,
         "next": [
@@ -526,10 +467,16 @@
             }
         },
         "pre_delay": 0,
+        "anchor": {
+            "GiftOperatorTrustAfterRestore": ""
+        },
         "post_delay": 0,
         "rate_limit": 0,
         "next": [
-            "[Anchor]GiftOperatorTrustAfterFilter"
+            "[JumpBack]GiftOperatorSelectOp1",
+            "[JumpBack]GiftOperatorSelectOp2",
+            "[JumpBack]GiftOperatorSelectOp3",
+            "GiftOperatorTrustRestoreOpen"
         ]
     },
     // 取消信赖筛选会保留已选名单；恢复后再次校验本轮人数，再确认召唤。
@@ -661,7 +608,7 @@
             "GiftOperatorTrustRestored"
         ]
     },
-    // 复用原有选中态节点复核，第二次校验通过后的出口统一改为确认召唤。
+    // 清理后只进入本轮已验证的序号复核，或明确零候选时的关闭出口。
     "GiftOperatorTrustRestored": {
         "recognition": {
             "type": "And",
@@ -673,15 +620,58 @@
             }
         },
         "pre_delay": 0,
-        "anchor": {
-            "GiftOperatorTrustAfterFirst": "GiftOperatorConfirmSelect",
-            "GiftOperatorTrustAfterSecond": "GiftOperatorConfirmSelect",
-            "GiftOperatorTrustAfterThird": "GiftOperatorConfirmSelect"
-        },
         "post_delay": 0,
         "rate_limit": 0,
         "next": [
             "[Anchor]GiftOperatorTrustAfterRestore"
+        ]
+    },
+    "GiftOperatorTrustVerifySelected1": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorCheckSelected1"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorConfirmSelect"
+        ]
+    },
+    "GiftOperatorTrustVerifySelected2": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorCheckSelected2"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorConfirmSelect"
+        ]
+    },
+    "GiftOperatorTrustVerifySelected3": {
+        "recognition": {
+            "type": "And",
+            "param": {
+                "all_of": [
+                    "GiftOperatorCheckSelected3"
+                ]
+            }
+        },
+        "pre_delay": 0,
+        "post_delay": 0,
+        "rate_limit": 0,
+        "next": [
+            "GiftOperatorConfirmSelect"
         ]
     },
     "GiftOperatorTrustCloseContact": {
